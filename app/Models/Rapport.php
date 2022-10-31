@@ -26,6 +26,7 @@ class Rapport extends Model
         'nbre_tf_crees',
         'date_save',
         'screenshot',
+        'is_matched'
     ];
 
     /*public function agent()

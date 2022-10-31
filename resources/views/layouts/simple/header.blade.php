@@ -13,9 +13,17 @@
       
       <ul class="nav-menus">
         
-        <div> <a href="{{route('notifications')}}"><i class="fa fa-bell fa-2x"></i></a> </div>
+        <div class="px-4"> 
+          <a href="{{route('notifications')}}" class="position-relative"><i class="fa fa-bell fa-2x"></i>
+              @if ( $badge > 0 )
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {{ $badge }}
+                </span>
+              @endif
+          </a> 
+        </div>
 
-        <li class="profile-nav onhover-dropdown p-0 me-0">
+        <li class="profile-nav onhover-dropdown p-0 ml-1">
           
           <div class="media profile-media">
             

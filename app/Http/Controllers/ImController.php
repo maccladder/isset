@@ -19,17 +19,17 @@ class ImController extends Controller
  
     public function upload(Request $request){
  
-     $image = $request->file('image');
-     $filename= date('YmdHi').$image->getClientOriginalName();
-     $image-> move(public_path('Ocr'), $filename);
- 
-     $ocr = new TesseractOCR(public_path("Ocr/$filename"));
-
-     $ocr->allowlist(range(0, 9),'/');
-     
-     $text = $ocr->run();
- 
-     return redirect()->back()->with('text',$text);
+        $image = $request->file('image');
+        $filename= date('YmdHi').$image->getClientOriginalName();
+        $image-> move(public_path('Ocr'), $filename);
+    
+        $ocr = new TesseractOCR(public_path("Ocr/$filename"));
+   
+        $ocr->allowlist(range(0, 9),'/');
+        
+        $text = $ocr->run();
+    
+        return redirect()->back()->with('text',$text);
 
      
     

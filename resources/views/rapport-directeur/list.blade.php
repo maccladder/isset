@@ -18,7 +18,6 @@
     <li class="breadcrumb-item active">rapports</li>
 @endsection
 
-
 @section('content')
     <div class="container-fluid">
         @include('flash-message')
@@ -29,7 +28,6 @@
                         <form  method="POST" action="{{ route('rapport.export') }}">
                             @csrf
                         <div class="dispform">
-
 
                             <div class="col-md-4 margin-div-dir">
                                 <div class="form-group">

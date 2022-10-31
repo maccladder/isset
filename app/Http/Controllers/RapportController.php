@@ -8,6 +8,8 @@ use App\Models\Agent;
 use DataTables;
 use Auth;
 
+use thiagoalessio\TesseractOCR\TesseractOCR;
+
 class RapportController extends Controller
 {
     public function __construct()
@@ -52,6 +54,7 @@ class RapportController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
+
         return view('rapport.list');
     }
 
@@ -222,17 +225,44 @@ class RapportController extends Controller
 
     public function modifier(Request $request){
 
-        $modifier_rapport = new Rapport();
-        $modifier_rapport->where('id',$request->input('id_rapport'))->update([
+        $modifier_rapport = Rapport::find($request->input('id_rapport'));
+
+        list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched) = $this->ocr_values($request, $modifier_rapport->screenshot);
+
+        $modifier_rapport->update([
             'date' => $request->input('date'),
             'id_agent' => $request->input('id_agent'),
-            'nbre_tf_impactes' => $request->input('nbre_tf_impactes'),
-            'nbre_inscription' => $request->input('nbre_inscription'),
-            'nbre_tf_crees' => $request->input('nbre_tf_crees')
+            'nbre_tf_impactes' => $nbre_tf_impactes,
+            'nbre_inscription' => $nbre_inscription,
+            'nbre_tf_crees' => $nbre_tf_crees,
+            'is_matched' => $is_matched
         ]);
 
         return redirect('/rapports')->with('success','Informations modifiés avec succes');
 
+    }
+
+    //image ocr
+    protected function ocr_values($request, $filename)
+    {
+        $nbre_tf_impactes = $request->input('nbre_tf_impactes');
+        $nbre_inscription = $request->input('nbre_inscription');
+        $nbre_tf_crees = $request->input('nbre_tf_crees');
+
+        try {
+
+            $ocr = new TesseractOCR(public_path("Image/$filename"));
+            $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'/');
+            $ocr_text = $ocr->run();
+
+            $segments = preg_split('/[\s]+/', $ocr_text);
+            $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
+
+            return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched);
+
+        }catch (Exception $e){}
+
+        return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, 0);
     }
 
     protected function register_rapport(Request $request)
@@ -261,51 +291,53 @@ class RapportController extends Controller
 
         }else{
 
-            $val1=$request->input('nbre_tf_impactes');
-            $val2=$request->input('nbre_inscription');
-            $val3=$request->input('nbre_tf_crees');
+            // $val1=$request->input('nbre_tf_impactes');
+            // $val2=$request->input('nbre_inscription');
+            // $val3=$request->input('nbre_tf_crees');
 
-            if(empty($request->input('nbre_tf_impactes'))){
-                $val1=0;
-            }
+            // if(empty($request->input('nbre_tf_impactes'))){
+            //     $val1=0;
+            // }
 
-            if(empty($request->input('nbre_inscription'))){
-                $val2=0;
-            }
+            // if(empty($request->input('nbre_inscription'))){
+            //     $val2=0;
+            // }
 
-            if(empty($request->input('nbre_tf_crees'))){
-                $val3=0;
-            }
+            // if(empty($request->input('nbre_tf_crees'))){
+            //     $val3=0;
+            // }
 
             $nom_agent = Agent::where('id', $request->input('id_agent'))->pluck('name');
             $prenom_agent = Agent::where('id', $request->input('id_agent'))->pluck('prenom');
 
             $nom_agent_complet = $nom_agent[0].' '.$prenom_agent[0];
 
-            $data= new Rapport();
+            //$data= new Rapport();
 
+        $filename = "";
         if($request->file('screenshot'))
         {
             $file= $request->file('screenshot');
             $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('public/Image'), $filename);
-            $data['screenshot']= $filename;
+            $file-> move(public_path('Image'), $filename);
+            //$data['screenshot']= $filename;
         }
-        
-        
 
-            $create =  Rapport::create([
-                'date' => date("Y-m-d",strtotime($request->input('date'))),
-                'id_agent' => $request->input('id_agent'),
-                'id_user' => $request->input('id_user'),
-                'nomcomplet' => $nom_agent_complet,
-                'nbre_tf_impactes' => $val1,
-                'nbre_inscription' => $val2,
-                'nbre_tf_crees' => $val3,
-                'date_save' => $request->input('date_save'),
-                'screenshot'=> $filename,
+        //compare numbers : screenshot
+        list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched) = $this->ocr_values($request, $filename);
 
-            ]);
+        $create =  Rapport::create([
+            'date' => date("Y-m-d",strtotime($request->input('date'))),
+            'id_agent' => $request->input('id_agent'),
+            'id_user' => $request->input('id_user'),
+            'nomcomplet' => $nom_agent_complet,
+            'nbre_tf_impactes' => $nbre_tf_impactes,
+            'nbre_inscription' => $nbre_inscription,
+            'nbre_tf_crees' => $nbre_tf_crees,
+            'date_save' => $request->input('date_save'),
+            'screenshot'=> $filename,
+            'is_matched' => $is_matched
+        ]);
 
             // $data->save();
 
