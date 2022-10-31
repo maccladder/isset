@@ -1,3 +1,5 @@
+Please read New text Document.txt.
+
 Laravel 8 version - Cuba Theme Support 
 
 1) Laravel Jetstream.  ( https://jetstream.laravel.com/1.x/introduction.html#laravel-jetstream )
