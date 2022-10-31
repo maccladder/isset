@@ -1,4 +1,4 @@
-*** Please read New text Document.txt. ***
+## Please read New text Document.txt
 
 Laravel 8 version - Cuba Theme Support 
 
