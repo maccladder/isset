@@ -25,7 +25,7 @@ class ImController extends Controller
     
         $ocr = new TesseractOCR(public_path("Ocr/$filename"));
    
-        $ocr->allowlist(range(0, 9),'/');
+        $ocr->allowlist(range(0, 9),'-');
         
         $text = $ocr->run();
     

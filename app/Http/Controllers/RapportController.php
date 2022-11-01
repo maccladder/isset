@@ -245,6 +245,7 @@ class RapportController extends Controller
     //image ocr
     protected function ocr_values($request, $filename)
     {
+        $save_date = $request->input('date');
         $nbre_tf_impactes = $request->input('nbre_tf_impactes');
         $nbre_inscription = $request->input('nbre_inscription');
         $nbre_tf_crees = $request->input('nbre_tf_crees');
@@ -252,11 +253,18 @@ class RapportController extends Controller
         try {
 
             $ocr = new TesseractOCR(public_path("Image/$filename"));
-            $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'/');
+            // $ocr->allowlist(range(0, 9),'-');
+            $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'-');
             $ocr_text = $ocr->run();
 
+            // dd($ocr_text);
+
             $segments = preg_split('/[\s]+/', $ocr_text);
-            $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
+
+            if ( $segments > 3 )
+                $is_matched = $save_date == $segments[0] && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
+            else 
+                $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
 
             return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched);
 
