@@ -7,7 +7,7 @@
             <div class="content">
                 <p>Enregistré le : {{ $rapport->created_at }}</p>
                 <hr>
-                <p><img src="{{ url('public/Image/'.$rapport->screenshot) }}" style="height: 500px; width: 500px;"></p>
+                <p><img src="{{ url('Image/'.$rapport->screenshot) }}" style="height: 500px; width: 500px;"></p>
             </div>
         </div>
     </div>
