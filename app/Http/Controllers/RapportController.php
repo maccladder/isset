@@ -257,12 +257,11 @@ class RapportController extends Controller
             $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'-');
             $ocr_text = $ocr->run();
 
-            // dd($ocr_text);
-
+            // dd($segments);
             $segments = preg_split('/[\s]+/', $ocr_text);
 
             if ( $segments > 3 )
-                $is_matched = $save_date == $segments[0] && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
+                $is_matched = date("Y-m-d",strtotime($segments[0])) == date("Y-m-d",strtotime($save_date)) && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
             else 
                 $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
 
