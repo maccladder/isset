@@ -7,6 +7,8 @@ use App\Models\Rapport;
 use App\Models\Agent;
 use DataTables;
 use Auth;
+use Carbon\Carbon;
+
 
 use thiagoalessio\TesseractOCR\TesseractOCR;
 
@@ -230,7 +232,7 @@ class RapportController extends Controller
         list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched) = $this->ocr_values($request, $modifier_rapport->screenshot);
 
         $modifier_rapport->update([
-            'date' => $request->input('date'),
+            'date' => date("Y-m-d", strtotime($request->input('date'))),
             'id_agent' => $request->input('id_agent'),
             'nbre_tf_impactes' => $nbre_tf_impactes,
             'nbre_inscription' => $nbre_inscription,
@@ -256,12 +258,14 @@ class RapportController extends Controller
             // $ocr->allowlist(range(0, 9),'-');
             $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'-');
             $ocr_text = $ocr->run();
-
-            // dd($segments);
+           
             $segments = preg_split('/[\s]+/', $ocr_text);
 
+            $input_date =  date("d-m-Y", strtotime($save_date)); 
+            $ocr_date =  date("d-m-Y",strtotime($segments[0]));
+
             if ( $segments > 3 )
-                $is_matched = date("Y-m-d",strtotime($segments[0])) == date("Y-m-d",strtotime($save_date)) && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
+                $is_matched = $input_date == $ocr_date && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
             else 
                 $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
 
@@ -334,14 +338,14 @@ class RapportController extends Controller
         list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched) = $this->ocr_values($request, $filename);
 
         $create =  Rapport::create([
-            'date' => date("Y-m-d",strtotime($request->input('date'))),
+            'date' => date("Y-m-d", strtotime($request->input('date'))),
             'id_agent' => $request->input('id_agent'),
             'id_user' => $request->input('id_user'),
             'nomcomplet' => $nom_agent_complet,
             'nbre_tf_impactes' => $nbre_tf_impactes,
             'nbre_inscription' => $nbre_inscription,
             'nbre_tf_crees' => $nbre_tf_crees,
-            'date_save' => $request->input('date_save'),
+            'date_save' => date("Y-m-d", strtotime($request->input('date_save'))),
             'screenshot'=> $filename,
             'is_matched' => $is_matched
         ]);

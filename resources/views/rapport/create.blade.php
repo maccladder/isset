@@ -13,8 +13,8 @@
                             <div class="form-group">
                                 <label class="col-form-label">Date</label>
                                 <input type="hidden" value="{{Auth::user()->id}}" name="id_user">
-                                <input type="hidden" value="{{date("Y-m-d", time())}}" name="date_save">
-                                <input class="form-control datepicker-here @error('date') is-invalid @enderror" autocomplete="off" maxDate="<?=date("m/d/Y",time())?>" id="datepicker" type="text" data-language="en" name="date">
+                                <input type="hidden" value="{{date('Y-m-d', time())}}" name="date_save">
+                                <input class="form-control datepicker-here @error('date') is-invalid @enderror" autocomplete="off" maxDate="<?=date("Y/m/d",time())?>" id="datepicker" type="text" data-language="en" name="date">
                                 @error('date')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

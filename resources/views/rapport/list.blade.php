@@ -111,7 +111,6 @@
                     order: [[0, 'desc']]
                 });
 
-
                 $("#datepicker").datepicker({maxDate: new Date() });
 
                 $('body').on('click', '#open_detail_rapport', function (event) {
