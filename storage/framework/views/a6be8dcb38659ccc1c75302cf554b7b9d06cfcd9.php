@@ -11,10 +11,12 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('breadcrumb-title'); ?>
-    <h3>Notifications</h3>
+    <h3>Notifications de rapports et de captures non concordants</h3>
 <?php $__env->stopSection(); ?>
 
-
+<?php $__env->startSection('breadcrumb-items'); ?>
+    <li class="breadcrumb-item active">Dashboard</li>
+<?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="container-fluid">

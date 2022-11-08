@@ -75,6 +75,7 @@
       .card .card-header {
         padding: 24px !important;
       }
+      
 
     </style>
   </head>
@@ -107,17 +108,24 @@
         <div class="page-body">
           <div class="container-fluid">
             <div class="page-title">
-              <div class="row">
-                <div class="col-6">
+              <div class="text-center">
+                <?php echo $__env->yieldContent('breadcrumb-title'); ?>
+                <ol class="breadcrumb" style="margin-right:3px">
+                    <li class="breadcrumb-item"><a href="<?php echo e(route('/')); ?>"> <i data-feather="home"></i></a></li>
+                    <?php echo $__env->yieldContent('breadcrumb-items'); ?>
+                  </ol>
+              </div>
+              <!-- <div class="row">
+                <div class="col-8 text-center">
                   <?php echo $__env->yieldContent('breadcrumb-title'); ?>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?php echo e(route('/')); ?>"> <i data-feather="home"></i></a></li>
                     <?php echo $__env->yieldContent('breadcrumb-items'); ?>
                   </ol>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- Container-fluid starts-->

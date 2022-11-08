@@ -11,10 +11,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Notifications</h3>
+    <h3>Notifications de rapports et de captures non concordants</h3>
 @endsection
 
-
+@section('breadcrumb-items')
+    <li class="breadcrumb-item active">Dashboard</li>
+@endsection
 
 @section('content')
 <div class="container-fluid">
