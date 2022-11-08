@@ -328,16 +328,20 @@ class RapportController extends Controller
 
     protected function register_rapport(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'date' => ['required'],
-            'id_agent' => ['required']
+            'id_agent' => ['required'],
+            'nbre_tf_impactes' => ['required'],
+            'nbre_inscription' => ['required'],
+            'nbre_tf_crees' => ['required'],
         ],
             [
                 'date.required' => 'Le champ date est obligatoire.',
-                'id_agent.required' => 'Ce champ obligatoire.'
-
+                'id_agent.required' => 'Ce champ obligatoire.',
+                'nbre_tf_impactes.required' => 'Ce champ obligatoire.',
+                'nbre_inscription.required' => 'Ce champ obligatoire.',
+                'nbre_tf_crees.required' => 'Ce champ obligatoire.',
             ]);
-
 
         $rapport_verif = new Rapport();
         $verif = $rapport_verif::where('date',date("Y-m-d",strtotime($request->input('date'))))->where('id_agent',$request->input('id_agent'))->get();

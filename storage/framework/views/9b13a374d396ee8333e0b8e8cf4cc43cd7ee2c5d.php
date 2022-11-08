@@ -14,11 +14,11 @@
                         <div class="form-group">
                             <label class="col-form-label">Date</label>
                             <input type="hidden" value="<?php echo e($list_rapport->id); ?>" name="id_rapport">
-                            <input class="form-control" type="date" value="<?php echo e($list_rapport->date); ?>" name="date">
+                            <input class="form-control" type="date" value="<?php echo e($list_rapport->date); ?>" name="date" required>
                         </div>
                         <div class="form-group">
                             <label class="col-form-label">Agent</label>
-                            <select name="id_agent" class="form-select col-sm-12">
+                            <select name="id_agent" class="form-select col-sm-12" required>
                                 <?php $__currentLoopData = \App\Models\Agent::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option value="<?php echo e($agent->id); ?>" <?php if($agent->id == $list_rapport->id_agent): ?> selected <?php endif; ?>>
                                         <?php echo e($agent->name); ?>   <?php echo e($agent->prenom); ?>
@@ -29,15 +29,15 @@
                         </div>
                         <div class="form-group">
                             <label class="col-form-label">Nombre de TF impactes par des inscriptions</label>
-                            <input class="form-control" type="number" name="nbre_tf_impactes" value="<?php echo e($list_rapport->nbre_tf_impactes); ?>">
+                            <input class="form-control" type="number" name="nbre_tf_impactes" value="<?php echo e($list_rapport->nbre_tf_impactes); ?>" required>
                         </div>
                         <div class="form-group">
                             <label class="col-form-label">Nombre d'inscription</label>
-                            <input class="form-control" type="number" name="nbre_inscription" value="<?php echo e($list_rapport->nbre_inscription); ?>">
+                            <input class="form-control" type="number" name="nbre_inscription" value="<?php echo e($list_rapport->nbre_inscription); ?>" required>
                         </div>
                         <div class="form-group">
                             <label class="col-form-label">Nombre de TF crées</label>
-                            <input class="form-control" type="number" value="<?php echo e($list_rapport->nbre_tf_crees); ?>" name="nbre_tf_crees">
+                            <input class="form-control" type="number" value="<?php echo e($list_rapport->nbre_tf_crees); ?>" name="nbre_tf_crees" required>
                         </div>
                 </div>
             </div>

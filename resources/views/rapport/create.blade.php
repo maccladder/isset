@@ -14,7 +14,7 @@
                                 <label class="col-form-label">Date</label>
                                 <input type="hidden" value="{{Auth::user()->id}}" name="id_user">
                                 <input type="hidden" value="{{date('Y-m-d', time())}}" name="date_save">
-                                <input class="form-control datepicker-here @error('date') is-invalid @enderror" autocomplete="off" maxDate="<?=date("Y/m/d",time())?>" id="datepicker" type="text" data-language="en" name="date">
+                                <input class="form-control datepicker-here @error('date') is-invalid @enderror" autocomplete="off" required maxDate="<?=date("Y/m/d",time())?>" id="datepicker" type="text" data-language="en" name="date">
                                 @error('date')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -23,7 +23,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-form-labe pt-0l">Agent</label>
-                                <select name="id_agent" class="form-select col-sm-12 @error('id_agent') is-invalid @enderror">
+                                <select name="id_agent" class="form-select col-sm-12 @error('id_agent') is-invalid @enderror" required> 
                                     <option value="">Veuillez sélectionner un agent</option>
                                     @foreach (\App\Models\Agent::all() as $key => $agent)
                                         <option value="{{ $agent->id }}">
@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label">Nombre de TF impactes par des inscriptions</label>
-                                <input class="form-control @error('nbre_tf_impactes') is-invalid @enderror" type="number" name="nbre_tf_impactes">
+                                <input class="form-control @error('nbre_tf_impactes') is-invalid @enderror" type="number" name="nbre_tf_impactes" required>
                                 @error('nbre_tf_impactes')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label">Nombre d'inscription</label>
-                                <input class="form-control @error('nbre_inscription') is-invalid @enderror" type="number" name="nbre_inscription">
+                                <input class="form-control @error('nbre_inscription') is-invalid @enderror" type="number" name="nbre_inscription" required>
                                 @error('nbre_inscription')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -58,7 +58,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label">Nombre de TF crées</label>
-                                <input class="form-control @error('nbre_tf_crees') is-invalid @enderror" type="number" name="nbre_tf_crees">
+                                <input class="form-control @error('nbre_tf_crees') is-invalid @enderror" type="number" name="nbre_tf_crees" required>
                                 @error('nbre_tf_crees')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

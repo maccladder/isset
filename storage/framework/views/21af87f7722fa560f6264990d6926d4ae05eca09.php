@@ -21,7 +21,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" autocomplete="off" maxDate="<?=date("Y/m/d",time())?>" id="datepicker" type="text" data-language="en" name="date">
+unset($__errorArgs, $__bag); ?>" autocomplete="off" required maxDate="<?=date("Y/m/d",time())?>" id="datepicker" type="text" data-language="en" name="date">
                                 <?php $__errorArgs = ['date'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -44,7 +44,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>">
+unset($__errorArgs, $__bag); ?>" required> 
                                     <option value="">Veuillez sélectionner un agent</option>
                                     <?php $__currentLoopData = \App\Models\Agent::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($agent->id); ?>">
@@ -76,7 +76,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" type="number" name="nbre_tf_impactes">
+unset($__errorArgs, $__bag); ?>" type="number" name="nbre_tf_impactes" required>
                                 <?php $__errorArgs = ['nbre_tf_impactes'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -99,7 +99,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" type="number" name="nbre_inscription">
+unset($__errorArgs, $__bag); ?>" type="number" name="nbre_inscription" required>
                                 <?php $__errorArgs = ['nbre_inscription'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -122,7 +122,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" type="number" name="nbre_tf_crees">
+unset($__errorArgs, $__bag); ?>" type="number" name="nbre_tf_crees" required>
                                 <?php $__errorArgs = ['nbre_tf_crees'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
