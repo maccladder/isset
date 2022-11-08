@@ -388,7 +388,7 @@ class RapportController extends Controller
         list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched, $is_sameOCR) = $this->ocr_values($request, $filename);
 
         if ( $is_sameOCR )
-            return redirect('/rapports')->with('error','Same Screenshot uploaded!');
+            return redirect('/rapports')->with("error","Capture d'écran déjà existante dans le système!Echec d'enregistrement du rapport!");
 
         $create =  Rapport::create([
             'date' => date("Y-m-d", strtotime($request->input('date'))),
