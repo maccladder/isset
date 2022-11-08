@@ -29,7 +29,7 @@ class RapportController extends Controller
                $query->select([
                     'rapports.id',
                     'rapports.date',
-                    // 'rapports.id_agent',
+                    'rapports.id_agent',
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
@@ -94,7 +94,7 @@ class RapportController extends Controller
                 $query->select([
                     'rapports.id',
                     'rapports.date',
-                    // 'rapports.id_agent',
+                    'rapports.id_agent',
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
@@ -110,7 +110,7 @@ class RapportController extends Controller
               $query->select([
                   'rapports.id',
                   'rapports.date',
-                //   'rapports.id_agent',
+                  'rapports.id_agent',
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
@@ -125,7 +125,7 @@ class RapportController extends Controller
               $query->select([
                   'rapports.id',
                   'rapports.date',
-                //   'rapports.id_agent',
+                  'rapports.id_agent',
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
@@ -140,7 +140,7 @@ class RapportController extends Controller
               $query->select([
                   'rapports.id',
                   'rapports.date',
-                //   'rapports.id_agent',
+                  'rapports.id_agent',
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
@@ -398,7 +398,7 @@ class RapportController extends Controller
                $query->select([
                     'rapports.id',
                     'rapports.date',
-                    // 'rapports.id_agent',
+                    'rapports.id_agent',
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
