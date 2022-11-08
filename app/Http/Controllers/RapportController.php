@@ -234,7 +234,7 @@ class RapportController extends Controller
 
         $modifier_rapport = Rapport::find($request->input('id_rapport'));
 
-        list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched) = $this->ocr_values($request, $modifier_rapport->screenshot);
+        list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched, $is_sameOCR) = $this->ocr_values($request, $modifier_rapport->screenshot);
 
         $nom_agent = Agent::where('id', $request->input('id_agent'))->pluck('name');
         $prenom_agent = Agent::where('id', $request->input('id_agent'))->pluck('prenom');
@@ -276,6 +276,7 @@ class RapportController extends Controller
             $segments = preg_split('/[\s]+/', $ocr_text);
 
             $isSameDate = false;
+            $isSameScreenshot = false;
             
             $lengthOfOCR = count($segments);
 
@@ -287,17 +288,42 @@ class RapportController extends Controller
             }
 
             if ( $lengthOfOCR == 5 ) {
-                $is_matched = $isSameDate == true && $id_agent == $segments[1] && $nbre_tf_impactes == $segments[2] && $nbre_inscription == $segments[3] && $nbre_tf_crees == $segments[4];
-            }else if ( $lengthOfOCR == 4 )
-                $is_matched = $isSameDate == true && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
-            else 
-                $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
+                
+                $query = Rapport::where('date', date("Y-m-d", strtotime($segments[0])))
+                    ->where('id_agent', $segments[1])
+                    ->where('nbre_tf_impactes', $segments[2])
+                    ->where('nbre_inscription', $segments[3])
+                    ->where('nbre_tf_crees', $segments[4])
+                    ->first();
 
-            return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched);
+                $isSameScreenshot = is_null($query) ? false: true;
+                $is_matched = $isSameDate == true && $id_agent == $segments[1] && $nbre_tf_impactes == $segments[2] && $nbre_inscription == $segments[3] && $nbre_tf_crees == $segments[4];
+            }else if ( $lengthOfOCR == 4 ){
+
+                $query = Rapport::where('date', date("Y-m-d", strtotime($segments[0])))
+                ->where('nbre_tf_impactes', $segments[1])
+                ->where('nbre_inscription', $segments[2])
+                ->where('nbre_tf_crees', $segments[3])
+                ->first();
+
+                $isSameScreenshot = !is_null($query);
+                $is_matched = $isSameDate == true && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
+            }else{
+
+                $query = Rapport::where('nbre_tf_impactes', $segments[0])
+                ->where('nbre_inscription', $segments[1])
+                ->where('nbre_tf_crees', $segments[2])
+                ->first();
+                $isSameScreenshot = !is_null($query);
+
+                $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
+            }
+
+            return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched, $isSameScreenshot);
 
         }catch (Exception $e){}
 
-        return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, 0);
+        return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, 0, $isSameScreenshot);
     }
 
     protected function register_rapport(Request $request)
@@ -359,7 +385,10 @@ class RapportController extends Controller
         }
 
         //compare numbers : screenshot
-        list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched) = $this->ocr_values($request, $filename);
+        list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched, $is_sameOCR) = $this->ocr_values($request, $filename);
+
+        if ( $is_sameOCR )
+            return redirect('/rapports')->with('error','Same Screenshot uploaded!');
 
         $create =  Rapport::create([
             'date' => date("Y-m-d", strtotime($request->input('date'))),
