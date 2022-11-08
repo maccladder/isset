@@ -5,7 +5,7 @@
         </header>
         <div class="card-content">
             <div class="content">
-                <p>Rapport du : <?php echo e($rapport->date); ?></p>
+                <p>Rapport du : <?php echo e(date("d-m-Y", strtotime($rapport->date))); ?></p>
                 <p>Enregistré le : <?php echo e($rapport->created_at); ?></p>
                 <hr>
                 <p><img src="<?php echo e(url('Image/'.$rapport->screenshot)); ?>" style="height: 500px; width: 500px;"></p>
