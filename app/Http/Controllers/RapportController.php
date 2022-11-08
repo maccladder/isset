@@ -33,7 +33,8 @@ class RapportController extends Controller
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
-                    'rapports.nbre_tf_crees'
+                    'rapports.nbre_tf_crees',
+                    'is_matched'
                 ]);
 
                /* $query->select([
@@ -97,7 +98,8 @@ class RapportController extends Controller
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
-                    'rapports.nbre_tf_crees'
+                    'rapports.nbre_tf_crees',
+                    'is_matched'
                 ]);
         }
 
@@ -112,7 +114,8 @@ class RapportController extends Controller
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
-                  'rapports.nbre_tf_crees'
+                  'rapports.nbre_tf_crees',
+                  'is_matched'
               ])->where('id_agent',$idagent);
           }
 
@@ -126,7 +129,8 @@ class RapportController extends Controller
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
-                  'rapports.nbre_tf_crees'
+                  'rapports.nbre_tf_crees',
+                  'is_matched'
               ])->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
           }
 
@@ -140,7 +144,8 @@ class RapportController extends Controller
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
-                  'rapports.nbre_tf_crees'
+                  'rapports.nbre_tf_crees',
+                  'is_matched'                  
               ])->where('id_agent',$idagent)->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
           }
 
@@ -240,13 +245,14 @@ class RapportController extends Controller
             'is_matched' => $is_matched
         ]);
 
-        return redirect('/rapports')->with('success','Informations modifiés avec succes');
+        return redirect()->back();//redirect('/rapports')->with('success','Informations modifiés avec succes');
 
     }
 
     //image ocr
     protected function ocr_values($request, $filename)
     {
+        $id_agent = $request->input('id_agent');
         $save_date = $request->input('date');
         $nbre_tf_impactes = $request->input('nbre_tf_impactes');
         $nbre_inscription = $request->input('nbre_inscription');
@@ -259,13 +265,25 @@ class RapportController extends Controller
             $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'-');
             $ocr_text = $ocr->run();
            
+            // dd($ocr_text);
+
             $segments = preg_split('/[\s]+/', $ocr_text);
 
-            $input_date =  date("d-m-Y", strtotime($save_date)); 
-            $ocr_date =  date("d-m-Y",strtotime($segments[0]));
+            $isSameDate = false;
+            
+            $lengthOfOCR = count($segments);
 
-            if ( $segments > 3 )
-                $is_matched = $input_date == $ocr_date && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
+            if ( $lengthOfOCR > 3 ){
+                $input_date =  date("d-m-Y", strtotime($save_date)); 
+                $ocr_date =  date("d-m-Y",strtotime($segments[0]));
+
+                $isSameDate = $input_date == $ocr_date;
+            }
+
+            if ( $lengthOfOCR == 5 ) {
+                $is_matched = $isSameDate == true && $id_agent == $segments[1] && $nbre_tf_impactes == $segments[2] && $nbre_inscription == $segments[3] && $nbre_tf_crees == $segments[4];
+            }else if ( $lengthOfOCR == 4 )
+                $is_matched = $isSameDate == true && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
             else 
                 $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
 
@@ -365,11 +383,33 @@ class RapportController extends Controller
     }
 
 
-    public function notifications()
-    
+    public function notifications()    
     {
-   
-   return view('notification');
+        if(request()->ajax()) {
+
+            $query =Rapport::query();
+
+               $query->select([
+                    'rapports.id',
+                    'rapports.date',
+                    'rapports.id_agent',
+                    'rapports.nomcomplet',
+                    'rapports.nbre_tf_impactes',
+                    'rapports.nbre_inscription',
+                    'rapports.nbre_tf_crees',
+                    'is_matched'
+                ])->where('is_matched',0);
+
+              
+            return datatables()->of($query)
+                ->addColumn('action', 'action_datatable')
+                ->editColumn('action', 'rapport.actionTable')
+                ->editColumn('date', 'rapport.actionDateAgent')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('notification');
     }
 
 }

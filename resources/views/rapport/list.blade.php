@@ -80,6 +80,8 @@
                     success: function(res){
                         var oTable = $('#ajax-crud-rapport').dataTable();
                         oTable.fnDraw(false);
+
+                        window.location.reload();
                     }
                 });
                 }
@@ -108,6 +110,12 @@
                         {data: 'nbre_tf_crees', name: 'nbre_tf_crees'},
                         {data: 'action', name: 'action', orderable: false},
                     ],
+                    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {       
+                        if (aData["is_matched"] == 0 ){
+                            $('td', nRow).css('background-color', '#D45049');
+                            $('td', nRow).css('color', '#fff');
+                        }
+                    },
                     order: [[0, 'desc']]
                 });
 
@@ -130,8 +138,6 @@
                     });
 
                 });
-
-
             });
         });
     </script>

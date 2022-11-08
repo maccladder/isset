@@ -11,11 +11,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Rapports</h3>
+    <h3>Dashboard</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item active">rapports</li>
+    <li class="breadcrumb-item active">Dashboard</li>
 @endsection
 
 @section('content')
@@ -143,6 +143,12 @@
                             "date" : $("#search_id_date").val()
                         });
                       }
+                    },
+                    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {       
+                        if (aData["is_matched"] == 0 ){
+                            $('td', nRow).css('background-color', '#dc3545');
+                            $('td', nRow).css('color', '#fff');
+                        }
                     },
                     columns: [
                         {data: 'id', name: 'id'},
