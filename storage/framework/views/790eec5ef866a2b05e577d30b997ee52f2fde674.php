@@ -24,7 +24,7 @@
                             </div>
                         <?php endif; ?>
                         <div style="font-size: 27px;"><a class="logo" href="<?php echo e(route('/')); ?>"><img src="<?php echo e(asset('assets/images/favicon.png')); ?>">  ISSET</a></div>
-                        <div style="font-size: 27px; ">Interface du Suivi des Saisies des Titres Fonciers</div> 
+                        <div style="font-size: 27px; ">Interface du Suivi et de la Sécurisation des Titres Fonciers</div> 
                         <div class="logo mx-5"><img src="http://127.0.0.1:8000/assets/images/logo.png"></div>
                         
                         <div class="login-main mt-3">
