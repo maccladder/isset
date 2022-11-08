@@ -1,7 +1,5 @@
 vendor
 node_modules
 public/Ocr
-storage/framework/views
-storage/framework/sessions
 
 public/public
