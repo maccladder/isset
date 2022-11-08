@@ -29,7 +29,7 @@ class RapportController extends Controller
                $query->select([
                     'rapports.id',
                     'rapports.date',
-                    'rapports.id_agent',
+                    // 'rapports.id_agent',
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
@@ -94,7 +94,7 @@ class RapportController extends Controller
                 $query->select([
                     'rapports.id',
                     'rapports.date',
-                    'rapports.id_agent',
+                    // 'rapports.id_agent',
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
@@ -110,7 +110,7 @@ class RapportController extends Controller
               $query->select([
                   'rapports.id',
                   'rapports.date',
-                  'rapports.id_agent',
+                //   'rapports.id_agent',
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
@@ -125,7 +125,7 @@ class RapportController extends Controller
               $query->select([
                   'rapports.id',
                   'rapports.date',
-                  'rapports.id_agent',
+                //   'rapports.id_agent',
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
@@ -140,7 +140,7 @@ class RapportController extends Controller
               $query->select([
                   'rapports.id',
                   'rapports.date',
-                  'rapports.id_agent',
+                //   'rapports.id_agent',
                   'rapports.nomcomplet',
                   'rapports.nbre_tf_impactes',
                   'rapports.nbre_inscription',
@@ -236,9 +236,15 @@ class RapportController extends Controller
 
         list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched) = $this->ocr_values($request, $modifier_rapport->screenshot);
 
+        $nom_agent = Agent::where('id', $request->input('id_agent'))->pluck('name');
+        $prenom_agent = Agent::where('id', $request->input('id_agent'))->pluck('prenom');
+
+        $nom_agent_complet = $nom_agent[0].' '.$prenom_agent[0];
+
         $modifier_rapport->update([
             'date' => date("Y-m-d", strtotime($request->input('date'))),
             'id_agent' => $request->input('id_agent'),
+            'nomcomplet' => $nom_agent_complet,
             'nbre_tf_impactes' => $nbre_tf_impactes,
             'nbre_inscription' => $nbre_inscription,
             'nbre_tf_crees' => $nbre_tf_crees,
@@ -392,7 +398,7 @@ class RapportController extends Controller
                $query->select([
                     'rapports.id',
                     'rapports.date',
-                    'rapports.id_agent',
+                    // 'rapports.id_agent',
                     'rapports.nomcomplet',
                     'rapports.nbre_tf_impactes',
                     'rapports.nbre_inscription',
