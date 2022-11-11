@@ -36,7 +36,7 @@
 
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title {{ request()->is('dashboard') ? ' active' : '' }}" href="{{route('rapport.directeur')}}">
-								<i data-feather="home"></i><span class="lan-3">Rapport</span>
+								<i data-feather="home"></i><span class="lan-3">Dashboard</span>
 							</a>
 						</li>
 

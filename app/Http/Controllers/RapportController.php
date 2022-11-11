@@ -442,7 +442,7 @@ class RapportController extends Controller
               
             return datatables()->of($query)
                 ->addColumn('action', 'action_datatable')
-                ->editColumn('action', 'rapport.actionTable')
+                 ->editColumn('action', 'rapport.actionTable')
                 ->editColumn('date', 'rapport.actionDateAgent')
                 ->rawColumns(['action'])
                 ->addIndexColumn()

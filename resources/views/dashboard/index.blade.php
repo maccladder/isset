@@ -13,11 +13,11 @@
 @endsection
 
 @section('breadcrumb-title')
-<h3>Rapports2323</h3>
+<h3>Rapports</h3>
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item active">Rapports2323</li>
+<li class="breadcrumb-item active">Rapports</li>
 @endsection
 
 @section('content')
