@@ -40,6 +40,12 @@
 							</a>
 						</li>
 
+						<li class="sidebar-list">
+							<a class="sidebar-link sidebar-title {{ request()->is('history') ? ' active' : '' }}" href="{{route('histories')}}">
+								<i data-feather="home"></i><span class="lan-3">History</span>
+							</a>
+						</li>
+
 					@endif
 
 					@if(Auth::user()->role == "Administrateur")

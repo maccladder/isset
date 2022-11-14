@@ -134,3 +134,7 @@ Route::post('/imupload', [ImController::class,'upload'])->name('imupload');
 // notifications d'anomalie 
 
 Route::get('/notifications', [App\Http\Controllers\RapportController::class, 'notifications'])->name('notifications');
+
+// history
+Route::get('/history', [App\Http\Controllers\RapportController::class, 'histories'])->name('histories');
+Route::post('/delHistory', [App\Http\Controllers\RapportController::class, 'del_history'])->name('delHis');

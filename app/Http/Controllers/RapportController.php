@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rapport;
 use App\Models\Agent;
+use App\Models\History;
 use DataTables;
 use Auth;
 use Carbon\Carbon;
@@ -241,6 +242,9 @@ class RapportController extends Controller
 
         $nom_agent_complet = $nom_agent[0].' '.$prenom_agent[0];
 
+        // $this->addHistory(1, $request->input('date')." | ".$request->input('id_agent')." | ".$nbre_tf_impactes." | ".$nbre_inscription." | ".$nbre_tf_crees);
+        $this->addHistory(1, "change rapport info");
+
         $modifier_rapport->update([
             'date' => date("Y-m-d", strtotime($request->input('date'))),
             'id_agent' => $request->input('id_agent'),
@@ -394,6 +398,9 @@ class RapportController extends Controller
         if ( $is_sameOCR )
             return redirect('/rapports')->with("error","Capture d'écran déjà existante dans le système!Echec d'enregistrement du rapport!");
 
+        // $this->addHistory(0, $request->input('date')." | ".$request->input('id_agent')." | ".$nbre_tf_impactes." | ".$nbre_inscription." | ".$nbre_tf_crees);
+        $this->addHistory(0, " created new rapport");
+
         $create =  Rapport::create([
             'date' => date("Y-m-d", strtotime($request->input('date'))),
             'id_agent' => $request->input('id_agent'),
@@ -416,7 +423,11 @@ class RapportController extends Controller
 
     public function delete(Request $request)
     {
-        $agent = Rapport::where('id',$request->id)->delete();
+        $agent = Rapport::where('id',$request->id);
+
+        $this->addHistory(2, " deleted rapport");
+        
+        $agent->delete();
 
         return Response()->json($agent);
     }
@@ -451,4 +462,37 @@ class RapportController extends Controller
         return view('notification');
     }
 
+    public function histories() {
+
+        if(request()->ajax()) {
+            $query = History::query();
+
+               $query->select([
+                    'id',
+                    'type',
+                    'log'
+                ]);
+
+            return datatables()->of($query)
+                ->addColumn('action', function($q){
+                    return "<a style='color:red' href=\"javascript:void(0);\" onclick=\"deleteFuncHistory($q->id)\"><i class=\"fa fa-close\"></i></a>";
+                })
+                ->make(true);
+        }
+        return view('history');
+    }
+
+    // type : 0 => new, 1 => edit, 2 => delete
+    private function addHistory($type, $msg) {
+        History::create([
+            'type' => $type,
+            'log' => Carbon::now()->format('d-m-Y')." ".$msg
+        ]);
+    }
+
+    public function del_history(Request $request) {
+        $his = History::find($request->id);
+        $his->delete();
+        return Response()->json($his);
+    }
 }

@@ -40,6 +40,12 @@
 							</a>
 						</li>
 
+						<li class="sidebar-list">
+							<a class="sidebar-link sidebar-title <?php echo e(request()->is('history') ? ' active' : ''); ?>" href="<?php echo e(route('histories')); ?>">
+								<i data-feather="home"></i><span class="lan-3">History</span>
+							</a>
+						</li>
+
 					<?php endif; ?>
 
 					<?php if(Auth::user()->role == "Administrateur"): ?>
