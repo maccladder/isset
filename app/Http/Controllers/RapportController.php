@@ -242,8 +242,6 @@ class RapportController extends Controller
 
         $nom_agent_complet = $nom_agent[0].' '.$prenom_agent[0];
 
-        dd($request->user);
-
         // $this->addHistory(1, $request->input('date')." | ".$request->input('id_agent')." | ".$nbre_tf_impactes." | ".$nbre_inscription." | ".$nbre_tf_crees);
         $this->addHistory(1, "change rapport info");
 
@@ -508,7 +506,7 @@ class RapportController extends Controller
     private function addHistory($type, $msg) {        
         History::create([
             'type' => $type,
-            'log' => Carbon::now()->format('d-m-Y')." ".$msg
+            'log' => $msg
         ]);
     }
 
