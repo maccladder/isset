@@ -19,6 +19,7 @@
 
   </head>
   <body>
+
     <!-- login page start-->
     <?php echo $__env->yieldContent('content'); ?>  
     <!-- latest jquery-->

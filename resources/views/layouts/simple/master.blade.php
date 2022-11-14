@@ -96,7 +96,10 @@
     <div class="tap-top"><i data-feather="chevrons-up"></i></div>
     <!-- tap on tap ends-->
     <!-- page-wrapper Start-->
+    
+
     <div class="page-wrapper horizontal-wrapper material-type" id="pageWrapper">
+    
       <!-- Page Header Start-->
       @include('layouts.simple.header')
       <!-- Page Header Ends  -->

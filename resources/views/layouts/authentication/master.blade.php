@@ -19,6 +19,7 @@
 
   </head>
   <body>
+
     <!-- login page start-->
     @yield('content')  
     <!-- latest jquery-->

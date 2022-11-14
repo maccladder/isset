@@ -1,4 +1,7 @@
+<img src="left.jpg" style="position:absolute;top:5px;left:5px;width:120px;height:120px">
+<img src="right.png" style="position:absolute;top:5px;right:5px;width:120px;height:120px">
 <div class="page-header">
+  
   <div class="header-wrapper row m-0">
     <div class="header-logo-wrapper col-auto p-0">
       <div class="logo-wrapper" style="font-size: 23px"><a href="<?php echo e(route('/')); ?>"><img src="<?php echo e(asset('assets/images/favicon.png')); ?>">ISSET</a></div>
@@ -6,7 +9,6 @@
     </div>
     
     <div class="left-header col horizontal-wrapper ps-0">
-      
     </div>
     
     <div class="nav-right col-8 pull-right right-header p-0">

@@ -11,7 +11,10 @@
         <div class="row m-0">
             <div class="col-12 p-0">
                 <div class="login-card">
-                    <div>
+                    <div class="col-12">
+                        <div class="inline-block">
+                            <img src="left.jpg" style="width:120px;height:120px"><img src="right.png" style="float: right;width:150px;height:150px">
+                        </div>
                         <?php if(isset($errors) and $errors->any()): ?>
                             <div class="col-xl-12">
                                 <div class="alert alert-danger">
@@ -24,7 +27,7 @@
                             </div>
                         <?php endif; ?>
                         <div style="font-size: 27px;"><a class="logo" href="<?php echo e(route('/')); ?>"><img src="<?php echo e(asset('assets/images/favicon.png')); ?>">  ISSET</a></div>
-                        <div style="font-size: 27px; ">Interface du Suivi et de la Sécurisation des Titres Fonciers</div> 
+                        <div class="text-center" style="font-size: 27px; ">Interface du Suivi et de la Sécurisation des Titres Fonciers</div> 
                         <div class="logo mx-5"><img src="http://127.0.0.1:8000/assets/images/logo.png"></div>
                         
                         <div class="login-main mt-3">
@@ -78,6 +81,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>
