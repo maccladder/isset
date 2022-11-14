@@ -208,7 +208,6 @@
                 $("#search_id_date").datepicker({maxDate: new Date() });
 
                 $('body').on('click', '#validform', function () {
-                     // alert($("#search_id_agent").val());
                        table.draw();
 
                     setTimeout(function() {

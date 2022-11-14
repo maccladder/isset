@@ -242,6 +242,8 @@ class RapportController extends Controller
 
         $nom_agent_complet = $nom_agent[0].' '.$prenom_agent[0];
 
+        dd($request->user);
+
         // $this->addHistory(1, $request->input('date')." | ".$request->input('id_agent')." | ".$nbre_tf_impactes." | ".$nbre_inscription." | ".$nbre_tf_crees);
         $this->addHistory(1, "change rapport info");
 
@@ -462,16 +464,36 @@ class RapportController extends Controller
         return view('notification');
     }
 
-    public function histories() {
+    public function histories(Request $request) {
 
         if(request()->ajax()) {
+            $fileds = ['id','type','log', 'created_at'];
+            $type = $request->id_agent;
+            $date = explode(' - ', $request->date);
+
+            $from = "";
+            $to = "";
+
             $query = History::query();
 
-               $query->select([
-                    'id',
-                    'type',
-                    'log'
-                ]);
+            if(!empty($date[0])){
+                
+                $from = $date[0];
+                $to = $date[1];
+
+                if ( !is_null($type) ){
+                    $query->select($fileds)->whereBetween('created_at', [date("Y-m-d 00:00:00",strtotime($from)), date("Y-m-d 23:59:59",strtotime($to))])->where('type', $type);
+                }else {
+                    $query->select($fileds)->whereBetween('created_at', [date("Y-m-d 00:00:00",strtotime($from)), date("Y-m-d 23:59:59",strtotime($to))]);
+                }
+            }else {
+                
+                if ( !is_null($type) ){                    
+                    $query->select($fileds)->where('type', $type);
+                }else {
+                    $query->select($fileds);
+                }
+            }
 
             return datatables()->of($query)
                 ->addColumn('action', function($q){
@@ -483,7 +505,7 @@ class RapportController extends Controller
     }
 
     // type : 0 => new, 1 => edit, 2 => delete
-    private function addHistory($type, $msg) {
+    private function addHistory($type, $msg) {        
         History::create([
             'type' => $type,
             'log' => Carbon::now()->format('d-m-Y')." ".$msg
@@ -494,5 +516,5 @@ class RapportController extends Controller
         $his = History::find($request->id);
         $his->delete();
         return Response()->json($his);
-    }
+    }    
 }
