@@ -60,6 +60,7 @@
                                 <tr>
                                     <th>Type</th>
                                     <th>Date</th>
+                                    <th>Name</th>
                                     <th>Log</th>
                                     <th>Action</th>
                                 </tr>
@@ -138,6 +139,7 @@
                     columns: [
                         {data: 'type', name: 'type'},
                         {data: 'created_at', name: 'created_at'},
+                        {data: 'name', name: 'name'},
                         {data: 'log', name: 'log'},
                         {data: 'action', name: 'action', orderable: false},
                     ],

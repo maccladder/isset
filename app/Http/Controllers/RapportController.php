@@ -465,7 +465,7 @@ class RapportController extends Controller
     public function histories(Request $request) {
 
         if(request()->ajax()) {
-            $fileds = ['id','type','log', 'created_at'];
+            $fileds = ['id', 'name','type','log', 'created_at'];
             $type = $request->id_agent;
             $date = explode(' - ', $request->date);
 
@@ -505,6 +505,7 @@ class RapportController extends Controller
     // type : 0 => new, 1 => edit, 2 => delete
     private function addHistory($type, $msg) {        
         History::create([
+            'name' => Auth::user()->name,
             'type' => $type,
             'log' => $msg
         ]);

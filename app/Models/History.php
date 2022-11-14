@@ -12,6 +12,7 @@ class History extends Model
     protected $dates = ['created_at', 'updated_at'];
 
     protected $fillable = [
+        'name',
         'type',
         'log',
     ];
