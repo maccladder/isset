@@ -310,7 +310,7 @@ class RapportController extends Controller
                 ->where('nbre_tf_crees', $segments[3])
                 ->first();
 
-                $isSameScreenshot = !is_null($query);
+                $isSameScreenshot = is_null($query) ? false: true;
                 $is_matched = $isSameDate == true && $nbre_tf_impactes == $segments[1] && $nbre_inscription == $segments[2] && $nbre_tf_crees == $segments[3];
             }else{
 
@@ -318,8 +318,7 @@ class RapportController extends Controller
                 ->where('nbre_inscription', $segments[1])
                 ->where('nbre_tf_crees', $segments[2])
                 ->first();
-                $isSameScreenshot = !is_null($query);
-
+                $isSameScreenshot = is_null($query) ? false: true;
                 $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
             }
 
