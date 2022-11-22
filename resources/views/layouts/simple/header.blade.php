@@ -1,5 +1,3 @@
-<img src="left.jpg" style="position:absolute;top:5px;left:5px;width:120px;height:120px">
-<img src="right.png" style="position:absolute;top:5px;right:5px;width:120px;height:120px">
 <div class="page-header">
   
   <div class="header-wrapper row m-0">

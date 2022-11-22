@@ -97,9 +97,12 @@
     <!-- tap on tap ends-->
     <!-- page-wrapper Start-->
     
+    
 
     <div class="page-wrapper horizontal-wrapper material-type" id="pageWrapper">
-    
+      <div class="inline-block" style="height:80px">
+          <img src="left.jpg" style="position:absolute;left:5px;top:5px;width:80px;height:80px"><img src="right.png" style="position:absolute;top:5px;right:5px;width:80px;height:80px">
+      </div>
       <!-- Page Header Start-->
       @include('layouts.simple.header')
       <!-- Page Header Ends  -->
