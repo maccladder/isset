@@ -14,7 +14,8 @@
                 <div class="login-card">
                     <div class="col-12">
                         <div class="inline-block">
-                            <img src="left.jpg" style="width:120px;height:120px"><img src="right.png" style="float: right;width:150px;height:150px">
+                        <img src="left.jpg" style="position:absolute;left:5px;top:5px;width:120px;height:120px"><img src="right.png" style="position:absolute;top:5px;right:5px;width:150px;height:150px">
+                            <!-- <img src="left.jpg" style="width:120px;height:120px"><img src="right.png" style="float: right;width:150px;height:150px"> -->
                         </div>
                         @if (isset($errors) and $errors->any())
                             <div class="col-xl-12">
@@ -27,6 +28,8 @@
                                 </div>
                             </div>
                         @endif
+                        
+                        
                         <div style="font-size: 27px;"><a class="logo" href="{{ route('/') }}"><img src="{{asset('assets/images/favicon.png')}}">  ISSET</a></div>
                         <div class="text-center" style="font-size: 27px; ">Interface du Suivi et de la Sécurisation des Titres Fonciers</div> 
                         <div class="logo mx-5"><img src="http://127.0.0.1:8000/assets/images/logo.png"></div>

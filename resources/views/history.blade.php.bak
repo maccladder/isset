@@ -11,11 +11,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Historiques</h3>
+    <h3>Histories</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item active">Tableau de bord</li>
+    <li class="breadcrumb-item active">Dashboard</li>
 @endsection
 
 
@@ -37,9 +37,9 @@
                                     <label class="col-form-label pt-0">Type</label>
                                     <select name="search_id_agent" id="search_id_agent" class="form-control js-example-basic-single col-sm-12">
                                         <option value="">Tous les types</option>
-                                        <option value="0">Création de nouveau rapport</option>
-                                        <option value="1">Modification de rapport</option>
-                                        <option value="2">Suppression de rapport</option>
+                                        <option value="0">Add</option>
+                                        <option value="1">Update</option>
+                                        <option value="2">Delete</option>
                                     </select>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                 <tr>
                                     <th>Type</th>
                                     <th>Date</th>
-                                    <th>Nom de l'agent</th>
+                                    <th>Name</th>
                                     <th>Log</th>
                                     <th>Action</th>
                                 </tr>

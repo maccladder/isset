@@ -243,7 +243,7 @@ class RapportController extends Controller
         $nom_agent_complet = $nom_agent[0].' '.$prenom_agent[0];
 
         // $this->addHistory(1, $request->input('date')." | ".$request->input('id_agent')." | ".$nbre_tf_impactes." | ".$nbre_inscription." | ".$nbre_tf_crees);
-        $this->addHistory(1, "modification de rapport");
+        $this->addHistory(1, "change rapport info");
 
         $modifier_rapport->update([
             'date' => date("Y-m-d", strtotime($request->input('date'))),
@@ -398,7 +398,7 @@ class RapportController extends Controller
             return redirect('/rapports')->with("error","Capture d'écran déjà existante dans le système!Echec d'enregistrement du rapport!");
 
         // $this->addHistory(0, $request->input('date')." | ".$request->input('id_agent')." | ".$nbre_tf_impactes." | ".$nbre_inscription." | ".$nbre_tf_crees);
-        $this->addHistory(0, " Création de nouveau rapport");
+        $this->addHistory(0, " created new rapport");
 
         $create =  Rapport::create([
             'date' => date("Y-m-d", strtotime($request->input('date'))),
@@ -424,7 +424,7 @@ class RapportController extends Controller
     {
         $agent = Rapport::where('id',$request->id);
 
-        $this->addHistory(2, " Suppression de rapport");
+        $this->addHistory(2, " deleted rapport");
         
         $agent->delete();
 
