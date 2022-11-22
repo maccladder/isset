@@ -36,13 +36,13 @@
 
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title {{ request()->is('dashboard') ? ' active' : '' }}" href="{{route('rapport.directeur')}}">
-								<i data-feather="home"></i><span class="lan-3">Tableau de bord</span>
+								<i data-feather="home"></i><span class="lan-3">Dashboard</span>
 							</a>
 						</li>
 
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title {{ request()->is('history') ? ' active' : '' }}" href="{{route('histories')}}">
-								<i data-feather="home"></i><span class="lan-3">Historique</span>
+								<i data-feather="home"></i><span class="lan-3">History</span>
 							</a>
 						</li>
 
@@ -51,7 +51,7 @@
 					@if(Auth::user()->role == "Administrateur")
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title {{ request()->is('dashboard') ? ' active' : '' }}" href="{{route('rapport.directeur')}}">
-								<i data-feather="home"></i><span class="lan-3">Tableau de bord</span>
+								<i data-feather="home"></i><span class="lan-3">Dashboard</span>
 							</a>
 						</li>
 						<li class="sidebar-list">

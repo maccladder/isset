@@ -15,7 +15,7 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item active">Tableau de bord</li>
+    <li class="breadcrumb-item active">Dashboard</li>
 @endsection
 
 @section('content')

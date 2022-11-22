@@ -36,13 +36,13 @@
 
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title <?php echo e(request()->is('dashboard') ? ' active' : ''); ?>" href="<?php echo e(route('rapport.directeur')); ?>">
-								<i data-feather="home"></i><span class="lan-3">Dashboard</span>
+								<i data-feather="home"></i><span class="lan-3">Tableau de bord</span>
 							</a>
 						</li>
 
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title <?php echo e(request()->is('history') ? ' active' : ''); ?>" href="<?php echo e(route('histories')); ?>">
-								<i data-feather="home"></i><span class="lan-3">History</span>
+								<i data-feather="home"></i><span class="lan-3">Historique</span>
 							</a>
 						</li>
 
@@ -51,7 +51,7 @@
 					<?php if(Auth::user()->role == "Administrateur"): ?>
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title <?php echo e(request()->is('dashboard') ? ' active' : ''); ?>" href="<?php echo e(route('rapport.directeur')); ?>">
-								<i data-feather="home"></i><span class="lan-3">Dashboard</span>
+								<i data-feather="home"></i><span class="lan-3">Tableau de bord</span>
 							</a>
 						</li>
 						<li class="sidebar-list">

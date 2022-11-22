@@ -6,7 +6,7 @@
         <div class="card-content">
             <div class="content">
                 <p>Rapport du : {{ date("d-m-Y", strtotime($rapport->date)) }}</p>
-                <p>Enregistré dans ISSET le : {{ date("d-m-Y", strtotime($rapport->created_at)) }} à {{ date("h:i", strtotime($rapport->created_at)) }}</p>
+                <p>Enregistré le : {{ date("h:i d-m-Y", strtotime($rapport->created_at)) }}</p>
                 <hr>
                 <p><img src="{{ url('Image/'.$rapport->screenshot) }}" style="height: 500px; width: 500px;"></p>
             </div>
