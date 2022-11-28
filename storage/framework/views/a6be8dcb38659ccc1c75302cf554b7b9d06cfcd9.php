@@ -15,7 +15,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('breadcrumb-items'); ?>
-    <li class="breadcrumb-item active">Dashboard</li>
+    <li class="breadcrumb-item active">Tableau de bord</li>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

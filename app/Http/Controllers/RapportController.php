@@ -9,10 +9,8 @@ use App\Models\History;
 use DataTables;
 use Auth;
 use Carbon\Carbon;
-
-
 use thiagoalessio\TesseractOCR\TesseractOCR;
-
+use App\Parser\PDF2Text;
 class RapportController extends Controller
 {
     public function __construct()
@@ -259,6 +257,58 @@ class RapportController extends Controller
 
     }
 
+    protected function extractFromPDF($filename) {
+        $pdf	=  new PDF2Text() ;
+        $pdf->setFilename(public_path("Image/$filename"));
+        $pdf->decodePDF();
+
+        $outputs = $pdf -> output();
+
+        $pattern = "/[0-9]+/";
+        preg_match_all($pattern, $outputs, $matches);
+
+        $len = count($matches[0]);
+
+        if ( $len == 0 )
+            return array(0,0,0);
+
+        if ( $len == 7 ) {
+            return array($matches[0][0].'-'.$matches[0][1].'-'.$matches[0][2], $matches[0][3], $matches[0][4], $matches[0][5], $matches[0][6]);
+        }else if ( $len == 6 ){
+            return array($matches[0][0].'-'.$matches[0][1].'-'.$matches[0][2], $matches[0][3], $matches[0][4], $matches[0][5]);
+        }else {
+            return array($matches[0][0], $matches[0][1], $matches[0][2]);
+        }
+    }
+
+    protected function extractFromImage($filename) {
+        $ocr = new TesseractOCR(public_path("Image/$filename"));
+        $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'-');
+        $ocr_text = $ocr->run();
+        
+        return preg_split('/[\s]+/', $ocr_text);
+    }
+
+    protected function isAvailableRecognizedFile($filename) {
+        return $this->isPDF($filename) || $this->isImage($filename);
+    }
+
+    protected function isPDF($filename) {
+        $ext = $this->getExtensionFrom($filename);
+        return strcmp('pdf', $ext) == 0;
+    }
+
+    protected function isImage($filename) {
+        $ext = $this->getExtensionFrom($filename);
+
+        return strcmp('png', $ext) == 0 || strcmp('jpg', $ext) == 0;
+    }
+
+    protected function getExtensionFrom($filename) {
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        return strtolower($ext);
+    }
+
     //image ocr
     protected function ocr_values($request, $filename)
     {
@@ -268,16 +318,8 @@ class RapportController extends Controller
         $nbre_inscription = $request->input('nbre_inscription');
         $nbre_tf_crees = $request->input('nbre_tf_crees');
 
-        try {
-
-            $ocr = new TesseractOCR(public_path("Image/$filename"));
-            // $ocr->allowlist(range(0, 9),'-');
-            $ocr->setOutputFile(public_path("output.txt"))->allowlist(range(0, 9),'-');
-            $ocr_text = $ocr->run();
-           
-            // dd($ocr_text);
-
-            $segments = preg_split('/[\s]+/', $ocr_text);
+        try {            
+            $segments = $this->isPDF($filename) ? $this->extractFromPDF($filename) :$this->extractFromImage($filename);
 
             $isSameDate = false;
             $isSameScreenshot = false;
@@ -291,8 +333,7 @@ class RapportController extends Controller
                 $isSameDate = $input_date == $ocr_date;
             }
 
-            if ( $lengthOfOCR == 5 ) {
-                
+            if ( $lengthOfOCR == 5 ) {                
                 $query = Rapport::where('date', date("Y-m-d", strtotime($segments[0])))
                     ->where('id_agent', $segments[1])
                     ->where('nbre_tf_impactes', $segments[2])
@@ -321,6 +362,8 @@ class RapportController extends Controller
                 $isSameScreenshot = is_null($query) ? false: true;
                 $is_matched = $nbre_tf_impactes == $segments[0] && $nbre_inscription == $segments[1] && $nbre_tf_crees == $segments[2];
             }
+
+            // dd($id_agent,$segments[1]);
 
             return array($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched, $isSameScreenshot);
 
@@ -387,16 +430,26 @@ class RapportController extends Controller
         {
             $file= $request->file('screenshot');
             $filename= date('YmdHi').$file->getClientOriginalName();
+
+            if ( !$this->isAvailableRecognizedFile($filename) )
+                return redirect('/rapports')->with("error","Uploaded data is incorrect(.pdf, .png, .jpg only)!");
+
             $file-> move(public_path('Image'), $filename);
             //$data['screenshot']= $filename;
         }
 
+
         //compare numbers : screenshot
         list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched, $is_sameOCR) = $this->ocr_values($request, $filename);
 
-        if ( $is_sameOCR )
-            return redirect('/rapports')->with("error","Capture d'écran déjà existante dans le système!Echec d'enregistrement du rapport!");
+        if ( $is_sameOCR ){
 
+            //remove uploaded file when its same
+            if ( file_exists(public_path('Image/'.$filename)))
+                unlink(public_path('Image/'.$filename));
+
+            return redirect('/rapports')->with("error","Capture d'écran déjà existante dans le système!Echec d'enregistrement du rapport!");
+        }
         // $this->addHistory(0, $request->input('date')." | ".$request->input('id_agent')." | ".$nbre_tf_impactes." | ".$nbre_inscription." | ".$nbre_tf_crees);
         $this->addHistory(0, " Création de nouveau rapport");
 
@@ -516,3 +569,7 @@ class RapportController extends Controller
         return Response()->json($his);
     }    
 }
+
+
+
+
