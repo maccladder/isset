@@ -174,9 +174,12 @@ class RapportController extends Controller
                 $query = $query->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
             }
 
+            if ( empty($from) )
+                $from = now();
+
             $getData = DB::table('agents')                
                 ->leftjoinSub($query, 'services', 'services.id_agent', '=', 'agents.id')
-                ->select('services.id', DB::raw('COALESCE(services.date, now()) as date'),'services.id_agent', DB::raw('concat(agents.name, " ", agents.prenom) as name'), DB::raw('COALESCE(services.nbre_tf_impactes, 0) as nbre_tf_impactes'), DB::raw('COALESCE(services.nbre_inscription, 0) as nbre_inscription'), DB::raw('COALESCE(services.nbre_tf_crees, 0) as nbre_tf_crees'), 'services.is_matched');
+                ->select('services.id', DB::raw("COALESCE(services.date, '$from') as date"),'services.id_agent', DB::raw('concat(agents.name, " ", agents.prenom) as name'), DB::raw('COALESCE(services.nbre_tf_impactes, 0) as nbre_tf_impactes'), DB::raw('COALESCE(services.nbre_inscription, 0) as nbre_inscription'), DB::raw('COALESCE(services.nbre_tf_crees, 0) as nbre_tf_crees'), 'services.is_matched');
 
                 if(!empty($idagent)){
                     $getData = $getData->where('agents.id', $idagent);
