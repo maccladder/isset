@@ -72,6 +72,12 @@
 							</a>
 						</li>
 					@endif
+
+					<li class="sidebar-list">
+						<a class="sidebar-link sidebar-title {{ request()->is('total/*') ? ' active' : '' }} {{ request()->is('total') ? ' active' : '' }}" href="{{route('totals')}}">
+							<i data-feather="calculator"></i><span class="lan-3">Comptabilisation des totaux du LIFE</span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</nav>

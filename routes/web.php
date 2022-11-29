@@ -138,3 +138,7 @@ Route::get('/notifications', [App\Http\Controllers\RapportController::class, 'no
 // history
 Route::get('/history', [App\Http\Controllers\RapportController::class, 'histories'])->name('histories');
 Route::post('/delHistory', [App\Http\Controllers\RapportController::class, 'del_history'])->name('delHis');
+
+// total on life
+Route::get('/total', [App\Http\Controllers\RapportController::class, 'totalPdfs'])->name('totals');
+Route::post('/total', [App\Http\Controllers\RapportController::class, 'uploadTotalFile'])->name('uploadFile');

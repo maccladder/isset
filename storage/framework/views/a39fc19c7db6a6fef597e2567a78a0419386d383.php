@@ -72,6 +72,12 @@
 							</a>
 						</li>
 					<?php endif; ?>
+
+					<li class="sidebar-list">
+						<a class="sidebar-link sidebar-title <?php echo e(request()->is('total/*') ? ' active' : ''); ?> <?php echo e(request()->is('total') ? ' active' : ''); ?>" href="<?php echo e(route('totals')); ?>">
+							<i data-feather="calculator"></i><span class="lan-3">Comptabilisation des totaux du LIFE</span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</nav>

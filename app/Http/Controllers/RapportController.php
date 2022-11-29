@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Rapport;
 use App\Models\Agent;
 use App\Models\History;
+use App\Models\Total;
 use DataTables;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use thiagoalessio\TesseractOCR\TesseractOCR;
-use App\Parser\PDF2Text;
+// use App\Parser\PDF2Text;
 use Smalot\PdfParser\Parser;
+use Validator;
 
 class RapportController extends Controller
 {
@@ -483,7 +485,6 @@ class RapportController extends Controller
             //$data['screenshot']= $filename;
         }
 
-
         //compare numbers : screenshot
         list($nbre_tf_impactes, $nbre_inscription, $nbre_tf_crees, $is_matched, $is_sameOCR) = $this->ocr_values($request, $filename);
 
@@ -612,7 +613,86 @@ class RapportController extends Controller
         $his = History::find($request->id);
         $his->delete();
         return Response()->json($his);
-    }    
+    }   
+    
+    public function totalPdfs(Request $request) {
+        if(request()->ajax()) {
+
+            $query =Total::query();
+
+               $query->select([
+                    'id',
+                    'time',
+                    'nbre_tf_impactes',
+                    'nbre_inscription',
+                    'nbre_tf_crees',
+                ]);
+
+              
+            return datatables()->of($query)
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return view('totals');
+    }
+
+    public function uploadTotalFile(Request $request){
+        $data = array();
+
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:pdf|max:2048'
+         ]);
+   
+         if ($validator->fails()) {
+            $data['success'] = 0;
+            $data['message'] = " Please upload only PDF file";// Error response
+        }else {
+            if($request->file('file')) {
+                $file = $request->file('file');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+
+                $file-> move(public_path('Image'), $filename);
+
+                $segments = $this->extractFromPDF($filename);
+                
+                $isSameDate = false;
+                $isSameScreenshot = false;
+                
+                $lengthOfOCR = count($segments);
+
+                if ( $lengthOfOCR > 3 ){
+                    $ocr_date =  date("d-m-Y",strtotime($segments[0]));
+
+                    $query = Total::where('time', date("Y-m-d", strtotime($segments[0])))->first();
+                    if ( !is_null($query) ){
+                        $data['success'] = 2;
+                        $data['message'] = ' You already uploaded '; 
+
+                        if ( file_exists(public_path('Image/'.$filename)))
+                            unlink(public_path('Image/'.$filename));
+                    }else {
+                        Total::create([
+                            'time'=> date("Y-m-d", strtotime($segments[0])),
+                            'nbre_tf_impactes'=>$segments[1],
+                            'nbre_inscription'=>$segments[2],
+                            'nbre_tf_crees'=>$segments[3],
+                        ]);
+
+                        $data['success'] = 1;
+                        $data['message'] = 'Uploaded Successfully!';
+                    }
+                }else {
+                    $data['success'] = 2;
+                    $data['message'] = ' Recognization Failed! '; 
+                }
+            }else {
+                $data['success'] = 0;
+                $data['message'] = 'File not uploaded.'; 
+            }
+        }
+
+        return response()->json($data);
+    }
 }
 
 
