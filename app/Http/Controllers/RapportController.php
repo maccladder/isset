@@ -11,6 +11,8 @@ use Auth;
 use Carbon\Carbon;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use App\Parser\PDF2Text;
+use Smalot\PdfParser\Parser;
+
 class RapportController extends Controller
 {
     public function __construct()
@@ -258,14 +260,15 @@ class RapportController extends Controller
     }
 
     protected function extractFromPDF($filename) {
-        $pdf	=  new PDF2Text() ;
-        $pdf->setFilename(public_path("Image/$filename"));
-        $pdf->decodePDF();
 
-        $outputs = $pdf -> output();
+        $pdfParser = new Parser();
+        $pdf = $pdfParser->parseFile(public_path("Image/$filename"));
+        $content = str_replace("\t", "", $pdf->getText());
 
         $pattern = "/[0-9]+/";
-        preg_match_all($pattern, $outputs, $matches);
+        preg_match_all($pattern, $content, $matches);
+
+        // dd($matches);
 
         $len = count($matches[0]);
 
