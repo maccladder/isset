@@ -8,6 +8,7 @@ use App\Models\Agent;
 use App\Models\History;
 use DataTables;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use App\Parser\PDF2Text;
@@ -96,70 +97,92 @@ class RapportController extends Controller
                 }
             }
 
-        if(empty($idagent)){
+            // if(empty($idagent)){
+            //         $query =Rapport::query();
+            //         //@dd($idagent);
+            //         $query->select([
+            //             'rapports.id',
+            //             'rapports.date',
+            //             'rapports.id_agent',
+            //             'rapports.nomcomplet',
+            //             'rapports.nbre_tf_impactes',
+            //             'rapports.nbre_inscription',
+            //             'rapports.nbre_tf_crees',
+            //             'rapports.is_matched'
+            //         ]);
+            // }
 
-                $query =Rapport::query();
-                //@dd($idagent);
-                $query->select([
-                    'rapports.id',
-                    'rapports.date',
-                    'rapports.id_agent',
-                    'rapports.nomcomplet',
-                    'rapports.nbre_tf_impactes',
-                    'rapports.nbre_inscription',
-                    'rapports.nbre_tf_crees',
-                    'is_matched'
-                ]);
-        }
+            // if(!empty($idagent) && empty($from) && empty($to)){
 
-          if(!empty($idagent) && empty($from) && empty($to)){
+            //     $query =Rapport::query();
+            //     //@dd($idagent);
+            //     $query->select([
+            //         'rapports.id',
+            //         'rapports.date',
+            //         'rapports.id_agent',
+            //         'rapports.nomcomplet',
+            //         'rapports.nbre_tf_impactes',
+            //         'rapports.nbre_inscription',
+            //         'rapports.nbre_tf_crees',
+            //         'rapports.is_matched'
+            //     ])->where('id_agent',$idagent);
+            // }
 
-              $query =Rapport::query();
-            //@dd($idagent);
-              $query->select([
-                  'rapports.id',
-                  'rapports.date',
-                  'rapports.id_agent',
-                  'rapports.nomcomplet',
-                  'rapports.nbre_tf_impactes',
-                  'rapports.nbre_inscription',
-                  'rapports.nbre_tf_crees',
-                  'is_matched'
-              ])->where('id_agent',$idagent);
-          }
+            // if(empty($idagent) && !empty($from) && !empty($to)){
 
-          if(empty($idagent) && !empty($from) && !empty($to)){
+            //     $query =Rapport::query();
+            //     $query->select([
+            //         'rapports.id',
+            //         'rapports.date',
+            //         'rapports.id_agent',
+            //         'rapports.nomcomplet',
+            //         'rapports.nbre_tf_impactes',
+            //         'rapports.nbre_inscription',
+            //         'rapports.nbre_tf_crees',
+            //         'rapports.is_matched'
+            //     ])->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
+            // }
 
-              $query =Rapport::query();
-              $query->select([
-                  'rapports.id',
-                  'rapports.date',
-                  'rapports.id_agent',
-                  'rapports.nomcomplet',
-                  'rapports.nbre_tf_impactes',
-                  'rapports.nbre_inscription',
-                  'rapports.nbre_tf_crees',
-                  'is_matched'
-              ])->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
-          }
+            // if(!empty($idagent) && !empty($from) && !empty($to)){
 
-          if(!empty($idagent) && !empty($from) && !empty($to)){
+            //     $query =Rapport::query();
+            //     $query->select([
+            //         'rapports.id',
+            //         'rapports.date',
+            //         'rapports.id_agent',
+            //         'rapports.nomcomplet',
+            //         'rapports.nbre_tf_impactes',
+            //         'rapports.nbre_inscription',
+            //         'rapports.nbre_tf_crees',
+            //         'rapports.is_matched'                  
+            //     ])->where('id_agent',$idagent)->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
+            // }
 
-              $query =Rapport::query();
-              $query->select([
-                  'rapports.id',
-                  'rapports.date',
-                  'rapports.id_agent',
-                  'rapports.nomcomplet',
-                  'rapports.nbre_tf_impactes',
-                  'rapports.nbre_inscription',
-                  'rapports.nbre_tf_crees',
-                  'is_matched'                  
-              ])->where('id_agent',$idagent)->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
-          }
+            $query =Rapport::query();
+            $query->select([
+                        'rapports.id',
+                        'rapports.date',
+                        'rapports.id_agent',
+                        'rapports.nomcomplet',
+                        'rapports.nbre_tf_impactes',
+                        'rapports.nbre_inscription',
+                        'rapports.nbre_tf_crees',
+                        'rapports.is_matched'                  
+            ]);
 
+            if(!empty($from) && !empty($to)){
+                $query = $query->whereBetween('date', [date("Y-m-d",strtotime($from)), date("Y-m-d",strtotime($to))]);
+            }
 
-            return datatables()->of($query)
+            $getData = DB::table('agents')                
+                ->leftjoinSub($query, 'services', 'services.id_agent', '=', 'agents.id')
+                ->select('services.id', DB::raw('COALESCE(services.date, now()) as date'),'services.id_agent', DB::raw('concat(agents.name, " ", agents.prenom) as name'), DB::raw('COALESCE(services.nbre_tf_impactes, 0) as nbre_tf_impactes'), DB::raw('COALESCE(services.nbre_inscription, 0) as nbre_inscription'), DB::raw('COALESCE(services.nbre_tf_crees, 0) as nbre_tf_crees'), 'services.is_matched');
+
+                if(!empty($idagent)){
+                    $getData = $getData->where('agents.id', $idagent);
+                }
+            
+            return datatables()->of($getData->get())
                 ->editColumn('date', 'rapport-directeur.actionDateAgent')
                 ->addIndexColumn()
                 ->make(true);

@@ -24,10 +24,10 @@ class Agent extends Model
         'id_user'
     ];
 
-    /*public function rapports()
-    {
-        return $this->hasMany(Rapport::class,'id_agent','id');
-    }*/
+    // public function rapports()
+    // {
+    //     return $this->hasMany(Rapport::class,'id_agent','id');
+    // }
 
-
+    
 }

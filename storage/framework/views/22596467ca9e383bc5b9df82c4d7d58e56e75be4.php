@@ -82,7 +82,7 @@
                             <table class="display" id="ajax-crud-directeur" >
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <!-- <th>Id</th> -->
                                     <th>Date</th>
                                     <th>Agent</th>
                                     <th>Nbres de TF impactés par les inscriptions</th>
@@ -93,7 +93,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>TOTAL</th>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th></th>
                                     <th id="nbre_tf_impactes"></th>
                                     <th id="total_nbre_inscription"></th>
@@ -162,9 +162,9 @@
                         }
                     },
                     columns: [
-                        {data: 'id', name: 'id'},
+                        // {data: 'id', name: 'id'},
                         {data: 'date', name: 'date'},
-                        {data: 'nomcomplet', name: 'nomcomplet'},
+                        {data: 'name', name: 'nomcomplet'},
                         {data: 'nbre_tf_impactes', name: 'nbre_tf_impactes', className:'total_nbre_tf_impactes'},
                         {data: 'nbre_inscription', name: 'nbre_inscription', className:'total_nbre_inscription'},
                         {data: 'nbre_tf_crees', name: 'nbre_tf_crees', className:'total_nbre_tf_crees'},
