@@ -4,10 +4,10 @@
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('assets/css/vendors/datatables.css')); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('assets/css/vendors/select2.css')); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('assets/css/vendors/date-picker.css')); ?>">
-
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('style'); ?>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('breadcrumb-title'); ?>
@@ -26,13 +26,22 @@
                 <div class="card">
                     <div class="card-header">
                         <form  method="POST" action="<?php echo e(route('rapport.export')); ?>">
-                            <?php echo csrf_field(); ?>
+                        <?php echo csrf_field(); ?>
+                        <div class="form-group">
+                            <label class="radio-inline">
+                                <input type="radio" name="optradio" value="day" checked> Day
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optradio" value="range" > A - B
+                            </label>
+                        </div>
                         <div class="dispform">
-
                             <div class="col-md-4 margin-div-dir">
+                                
                                 <div class="form-group">
                                     <label class="col-form-label pt-0">Date</label>
-                                    <input class="datepicker-here form-control digits height-range" autocomplete="off" name="search_id_date" id="search_id_date" type="text" data-range="true" placeholder="Veuillez sélectionner un interval de temps" data-multiple-dates-separator=" - " data-language="en">
+                                    <input class="datepicker-here form-control digits height-range range_picker d-none" autocomplete="off" name="search_id_date" type="text" data-range="true" placeholder="Veuillez sélectionner un interval de temps" data-multiple-dates-separator=" - " data-language="en">
+                                    <input class="datepicker-here form-control digits height-range day_picker" autocomplete="off" name="search_id_date" type="text" data-range="false"  placeholder="Veuillez sélectionner un interval de temps" data-language="en">
                                 </div>
                             </div>
                             <div class="col-md-4 mr-4 margin-div-dir">
@@ -140,8 +149,9 @@
                         'data' : function ( d ) {
                         return $.extend( {}, d, {
                             "_token" : "<?php echo e(csrf_token()); ?>",
+                            "optradio":$("input[name='optradio']:checked").val(),
                             "id_agent" :$("#search_id_agent").val(),
-                            "date" : $("#search_id_date").val()
+                            "date" : $("input[name='optradio']:checked").val() == "day" ? $(".day_picker").val() :$(".range_picker").val()
                         });
                       }
                     },
@@ -205,7 +215,8 @@
 
                 });
 
-                $("#search_id_date").datepicker({maxDate: new Date() });
+                $(".day_picker").datepicker();
+                $(".range_picker").datepicker({maxDate: new Date() });
 
                 $('body').on('click', '#validform', function () {
                        table.draw();
@@ -255,13 +266,14 @@
                 $('body').on('click', '#export_exel', function (event) {
                     event.preventDefault();
                     var id_agent_export = $("#search_id_agent").val();
-                    var date_export = $("#search_id_date").val();
+                    var date_export = $("input[name='optradio']:checked").val() == "day" ? $(".day_picker").val() :$(".range_picker").val()
                     // ajax
                     $.ajax({
                         type: "POST",
                         url: "<?php echo e(url('/export')); ?>",
                         data: {
                             id_agent_export: id_agent_export,
+                            optradio:$("input[name='optradio']:checked").val(),
                             date_export: date_export,
                             _token: '<?php echo e(csrf_token()); ?>' },
                         success: function (data) {
@@ -271,6 +283,17 @@
 
                 });
 
+            });
+
+
+            $('input[type=radio]').change(function() {                
+                if ( this.value == "day") {
+                    $('.day_picker').removeClass('d-none');
+                    $('.range_picker').addClass('d-none');                    
+                }else {
+                    $('.day_picker').addClass('d-none');
+                    $('.range_picker').removeClass('d-none');  
+                }
             });
 
         });

@@ -75,6 +75,16 @@
       .card .card-header {
         padding: 24px !important;
       }
+
+      .checkbox-inline, .radio-inline {
+        position: relative;
+        display: inline-block;
+        padding-left: 20px;
+        margin-bottom: 0;
+        font-weight: 400;
+        vertical-align: middle;
+        cursor: pointer;
+    }
       
 
     </style>

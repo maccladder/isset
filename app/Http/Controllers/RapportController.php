@@ -76,16 +76,24 @@ class RapportController extends Controller
             $query ="";
 
             $idagent = $request->id_agent;
-            $date = explode(' - ', $request->date);
 
-            if(!empty($date[0])){
+            $optradio = $request->optradio;
 
-                $from = $date[0];
-                $to = $date[1];
-            }
-            else{
-                $from = "";
-                $to = "";
+            if ( $optradio == "day") {
+                $from = $request->date;
+                $to = $request->date;
+            }else {
+                $date = explode(' - ', $request->date);
+
+                if(!empty($date[0])){
+
+                    $from = $date[0];
+                    $to = $date[1];
+                }
+                else{
+                    $from = "";
+                    $to = "";
+                }
             }
 
         if(empty($idagent)){
@@ -165,21 +173,29 @@ class RapportController extends Controller
     {
 
             $id_agent_export = $request->input('search_id_agent');
-            $date_export = explode(' - ', $request->input('search_id_date'));
+            $optradio = $request->input('optradio');
+            if ( $optradio == "day" ) {
+                $from = $request->input('search_id_date');
+                $to = $request->input('search_id_date');
+            }else {
+                $date_export = explode(' - ', $request->input('search_id_date'));
+                
+                if(!empty($date_export[0])){
 
+                    $from = $date_export[0];
+                    $to = $date_export[1];
+                }
+                else{
+                    $from = "";
+                    $to = "";
+                }
+            }
+            
             $nom_agent_complet = "";
             $nom_agent = "";
             $prenom_agent = "";
 
-            if(!empty($date_export[0])){
-
-                $from = $date_export[0];
-                $to = $date_export[1];
-            }
-            else{
-                $from = "";
-                $to = "";
-            }
+            
 
             $rapport_export = new Rapport();
 
