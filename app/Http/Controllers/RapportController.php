@@ -626,14 +626,22 @@ class RapportController extends Controller
                     'nbre_tf_impactes',
                     'nbre_inscription',
                     'nbre_tf_crees',
-                ]);
-
+                ])->where('time', Carbon::now()->format('Y-m-d'));
               
             return datatables()->of($query)
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('totals');
+
+        $nbre_tf_impactes = Rapport::where('date', '<=', Carbon::now()->format('Y-m-d'))->sum('nbre_tf_impactes');
+        $nbre_inscription = Rapport::where('date', '<=', Carbon::now()->format('Y-m-d'))->sum('nbre_inscription');
+        $nbre_tf_crees = Rapport::where('date', '<=', Carbon::now()->format('Y-m-d'))->sum('nbre_tf_crees');
+
+        return view('totals', [
+                                'nbre_tf_impactes' => $nbre_tf_impactes,
+                                'nbre_inscription' => $nbre_inscription,
+                                'nbre_tf_crees' => $nbre_tf_crees,
+                            ]);
     }
 
     public function uploadTotalFile(Request $request){
@@ -661,7 +669,20 @@ class RapportController extends Controller
                 $lengthOfOCR = count($segments);
 
                 if ( $lengthOfOCR > 3 ){
+                    
                     $ocr_date =  date("d-m-Y",strtotime($segments[0]));
+                    $today = Carbon::now();
+
+                    if ( !$today->isSameDay(Carbon::parse($segments[0]))){
+
+                        if ( file_exists(public_path('Image/'.$filename)))
+                            unlink(public_path('Image/'.$filename));
+
+                        $data['success'] = 2;
+                        $data['message'] = ' The PDF date is incorrect. Not today!!! '; 
+
+                        return response()->json($data);
+                    }
 
                     $query = Total::where('time', date("Y-m-d", strtotime($segments[0])))->first();
                     if ( !is_null($query) ){
@@ -683,7 +704,7 @@ class RapportController extends Controller
                     }
                 }else {
                     $data['success'] = 2;
-                    $data['message'] = ' Recognization Failed! '; 
+                    $data['message'] = ' Incorrect PDF! '; 
                 }
             }else {
                 $data['success'] = 0;

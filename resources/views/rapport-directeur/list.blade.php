@@ -184,8 +184,9 @@
                             }
 
                         });
-                        $("#nbre_tf_impactes").text(somme1);
+                        // console.log("Hello => {{$total->nbre_tf_impactes}}");
 
+                        $("#nbre_tf_impactes").text(somme1);
 
                         var somme2 = 0;
                         $("#total_nbre_inscription").text(somme2);
@@ -196,6 +197,7 @@
                             }
 
                         });
+
                         $("#total_nbre_inscription").text(somme2);
 
                         var somme3 = 0;
@@ -207,8 +209,8 @@
                             }
 
                         });
-                        $("#total_nbre_tf_crees").text(somme3);
 
+                        $("#total_nbre_tf_crees").text(somme3);
 
                     }, 1500);
 

@@ -133,10 +133,16 @@
                         {data: 'nbre_inscription', name: 'nbre_inscription'},
                         {data: 'nbre_tf_crees', name: 'nbre_tf_crees'},
                     ],
-                    // "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {       
-                    //     if (aData["is_matched"] == 0 )
-                    //         $('td', nRow).css('background-color', '#aa5588');
-                    // },
+                    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {       
+                        if (aData["nbre_tf_impactes"] != "{{$nbre_tf_impactes}}" )
+                            $('td', nRow).addClass('bg-danger');
+                        
+                        if (aData["nbre_inscription"] != "{{$nbre_inscription}}" )
+                            $('td', nRow).addClass('bg-danger');
+                        
+                        if (aData["nbre_tf_crees"] != "{{$nbre_tf_crees}}" )
+                            $('td', nRow).addClass('bg-danger');
+                    },
                     order: [[0, 'desc']]
                 });
 
@@ -182,6 +188,8 @@
                         $('#responseMsg').removeClass('d-none');
                     }
                 });
+
+
 
                 // $('body').on('click', '#open_detail_rapport', function (event) {
                     // event.preventDefault();

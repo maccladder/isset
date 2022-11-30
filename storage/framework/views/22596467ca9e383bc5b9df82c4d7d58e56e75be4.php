@@ -185,8 +185,14 @@
                             }
 
                         });
-                        $("#nbre_tf_impactes").text(somme1);
+                        // console.log("Hello => <?php echo e($total->nbre_tf_impactes); ?>");
 
+                        var total_nbre_tf_impactes = "<?php echo e($total->nbre_tf_impactes); ?>";
+
+                        $("#nbre_tf_impactes").text(somme1);
+                        
+                        if ( total_nbre_tf_impactes != somme1 )
+                            $("#nbre_tf_impactes").addClass('bg-danger');
 
                         var somme2 = 0;
                         $("#total_nbre_inscription").text(somme2);
@@ -197,7 +203,12 @@
                             }
 
                         });
+
+                        var total_nbre_inscription = "<?php echo e($total->nbre_inscription); ?>";
                         $("#total_nbre_inscription").text(somme2);
+
+                        if ( total_nbre_inscription != somme2 )
+                            $("#total_nbre_inscription").addClass('bg-danger');
 
                         var somme3 = 0;
                         $("#total_nbre_tf_crees").text(somme3);
@@ -208,7 +219,12 @@
                             }
 
                         });
+
+                        var total_nbre_tf_crees = "<?php echo e($total->nbre_tf_crees); ?>";
                         $("#total_nbre_tf_crees").text(somme3);
+
+                        if ( total_nbre_tf_crees != somme3 )
+                            $("#total_nbre_tf_crees").addClass('bg-danger');
 
 
                     }, 1500);
