@@ -184,7 +184,6 @@
                             }
 
                         });
-                        // console.log("Hello => {{$total->nbre_tf_impactes}}");
 
                         $("#nbre_tf_impactes").text(somme1);
 
