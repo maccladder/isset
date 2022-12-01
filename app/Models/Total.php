@@ -14,5 +14,6 @@ class Total extends Model
         'nbre_tf_impactes',
         'nbre_inscription',
         'nbre_tf_crees',
+        'screenshot'
     ];
 }

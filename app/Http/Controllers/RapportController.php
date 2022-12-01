@@ -700,6 +700,7 @@ class RapportController extends Controller
                             'nbre_tf_impactes'=>$segments[1],
                             'nbre_inscription'=>$segments[2],
                             'nbre_tf_crees'=>$segments[3],
+                            'screenshot'=>$filename
                         ]);
 
                         $data['success'] = 1;
