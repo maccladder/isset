@@ -66,6 +66,7 @@
                                     <th>Nbres de TF impactés par les inscriptions</th>
                                     <th>Nbres d'inscriptions</th>
                                     <th>Nbres de TF</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -132,6 +133,7 @@
                         {data: 'nbre_tf_impactes', name: 'nbre_tf_impactes'},
                         {data: 'nbre_inscription', name: 'nbre_inscription'},
                         {data: 'nbre_tf_crees', name: 'nbre_tf_crees'},
+                        {data: 'action', name: 'action', orderable: false},
                     ],
                     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {       
                         if (aData["nbre_tf_impactes"] != "<?php echo e($nbre_tf_impactes); ?>" )

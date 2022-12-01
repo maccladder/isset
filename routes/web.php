@@ -141,4 +141,5 @@ Route::post('/delHistory', [App\Http\Controllers\RapportController::class, 'del_
 
 // total on life
 Route::get('/total', [App\Http\Controllers\RapportController::class, 'totalPdfs'])->name('totals');
+Route::get('/total/{total}/screenshot', [App\Http\Controllers\ScreenshotController::class, 'tshow'])->name('tscreenshot');
 Route::post('/total', [App\Http\Controllers\RapportController::class, 'uploadTotalFile'])->name('uploadFile');

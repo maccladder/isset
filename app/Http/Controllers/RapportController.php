@@ -551,7 +551,7 @@ class RapportController extends Controller
               
             return datatables()->of($query)
                 ->addColumn('action', 'action_datatable')
-                 ->editColumn('action', 'rapport.actionTable')
+                ->editColumn('action', 'rapport.actionTable')
                 ->editColumn('date', 'rapport.actionDateAgent')
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -629,6 +629,9 @@ class RapportController extends Controller
                 ])->where('time', Carbon::now()->format('Y-m-d'));
               
             return datatables()->of($query)
+                ->addColumn('action', function($q){
+                    return "<a href='total/$q->id/screenshot' class='btn-success link-padding' data-toggle='popover' data-trigger='hover' data-placement ='right' title='Cliquez pour voir la capture'><i class='fa fa-camera'></i></a>";
+                })
                 ->addIndexColumn()
                 ->make(true);
         }

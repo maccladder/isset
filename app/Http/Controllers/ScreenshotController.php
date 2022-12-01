@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rapport;
 use App\Models\Agent;
+use App\Models\Total;
 use DataTables;
 use Auth;
 
@@ -51,6 +52,12 @@ class ScreenshotController extends Controller
     {
         return view('screenshot', compact('rapport'));
     }
+
+    public function tshow(Total $total)
+    {
+        return view('totalscreenshot', compact('total'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -19,6 +19,7 @@ class CreateTotalsTable extends Migration
             $table->integer('nbre_tf_impactes')->default(0);
             $table->integer('nbre_inscription')->default(0);
             $table->integer('nbre_tf_crees')->default(0);
+            $table->string('screenshot');
             $table->timestamps();
         });
     }
