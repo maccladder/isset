@@ -626,7 +626,7 @@ class RapportController extends Controller
                     'nbre_tf_impactes',
                     'nbre_inscription',
                     'nbre_tf_crees',
-               ]);//->where('time', Carbon::now()->format('Y-m-d'));
+               ])->where('time', Carbon::now()->format('Y-m-d'));
               
                 return datatables()->of($query)
                     ->addColumn('action', function($q){
