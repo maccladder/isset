@@ -1,17 +1,7 @@
-Hi,
+When can you online?
+Did you receive my email?
 
-How are you today?
-I have been keeping work and really hope to work for you longer.
-
-1) what is your email address?
-    It will be helpful for me to contact you when you are offline.
-
-2) Could you communicated me via Slack?
-    It's preferrable for pro developers.
-
-Looking forward your reply at fullstack.work25@gmail.com
-
-Thanks
+Please reply to me
 
 ##
 
