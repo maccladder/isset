@@ -33,7 +33,7 @@
                         
                     <div class="row">
 
-                    <?php if(Auth::user()->role != "Administrateur"): ?>
+                    <?php if(Auth::user()->role == "Administrateur"): ?>
                         <div class="col-md-12 col-sm-12 col-xs-12">
 
                             <!-- Form -->
