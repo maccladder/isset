@@ -628,12 +628,13 @@ class RapportController extends Controller
                     'nbre_tf_crees',
                 ])->where('time', Carbon::now()->format('Y-m-d'));
               
-            return datatables()->of($query)
-                ->addColumn('action', function($q){
-                    return "<a href='total/$q->id/screenshot' class='btn-success link-padding' data-toggle='popover' data-trigger='hover' data-placement ='right' title='Cliquez pour voir la capture'><i class='fa fa-camera'></i></a>";
-                })
-                ->addIndexColumn()
-                ->make(true);
+                return datatables()->of($query)
+                    ->addColumn('action', function($q){
+                        return "<a href='total/$q->id/screenshot' class='btn-success link-padding' data-toggle='popover' data-trigger='hover' data-placement ='right' title='Cliquez pour voir la capture'><i class='fa fa-camera'></i></a>";
+                    })
+                    ->addIndexColumn()
+                    ->make(true);
+                
         }
 
         $nbre_tf_impactes = Rapport::where('date', '<=', Carbon::now()->format('Y-m-d'))->sum('nbre_tf_impactes');
