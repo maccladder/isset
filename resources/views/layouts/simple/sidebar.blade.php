@@ -65,12 +65,7 @@
 								<div class="according-menu"><i class="fa fa-angle-{{request()->route()->getPrefix() == '/agent' ? 'down' : 'right' }}"></i></div>
 							</a>
 						</li>
-						<li class="sidebar-list">
-							<a class="sidebar-link sidebar-title {{ request()->is('users/*') ? ' active' : '' }} {{ request()->is('users') ? ' active' : '' }}" href="{{route('user')}}">
-								<i data-feather="user"></i><span class="lan-3">Utlisateurs</span>
-								<div class="according-menu"><i class="fa fa-angle-{{request()->route()->getPrefix() == '/user' ? 'down' : 'right' }}"></i></div>
-							</a>
-						</li>
+						
 					@endif
 
 					<li class="sidebar-list">
@@ -78,6 +73,14 @@
 							<i data-feather="calculator"></i><span class="lan-3">Comptabilisation des totaux du LIFE</span>
 						</a>
 					</li>
+					@if(Auth::user()->role == "Administrateur")
+					<li class="sidebar-list">
+							<a class="sidebar-link sidebar-title {{ request()->is('users/*') ? ' active' : '' }} {{ request()->is('users') ? ' active' : '' }}" href="{{route('user')}}">
+								<i data-feather="user"></i><span class="lan-3">Utlisateurs</span>
+								<div class="according-menu"><i class="fa fa-angle-{{request()->route()->getPrefix() == '/user' ? 'down' : 'right' }}"></i></div>
+							</a>
+						</li>
+						@endif
 				</ul>
 			</div>
 		</nav>

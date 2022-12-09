@@ -65,12 +65,7 @@
 								<div class="according-menu"><i class="fa fa-angle-<?php echo e(request()->route()->getPrefix() == '/agent' ? 'down' : 'right'); ?>"></i></div>
 							</a>
 						</li>
-						<li class="sidebar-list">
-							<a class="sidebar-link sidebar-title <?php echo e(request()->is('users/*') ? ' active' : ''); ?> <?php echo e(request()->is('users') ? ' active' : ''); ?>" href="<?php echo e(route('user')); ?>">
-								<i data-feather="user"></i><span class="lan-3">Utlisateurs</span>
-								<div class="according-menu"><i class="fa fa-angle-<?php echo e(request()->route()->getPrefix() == '/user' ? 'down' : 'right'); ?>"></i></div>
-							</a>
-						</li>
+						
 					<?php endif; ?>
 
 					<li class="sidebar-list">
@@ -78,6 +73,14 @@
 							<i data-feather="calculator"></i><span class="lan-3">Comptabilisation des totaux du LIFE</span>
 						</a>
 					</li>
+					<?php if(Auth::user()->role == "Administrateur"): ?>
+					<li class="sidebar-list">
+							<a class="sidebar-link sidebar-title <?php echo e(request()->is('users/*') ? ' active' : ''); ?> <?php echo e(request()->is('users') ? ' active' : ''); ?>" href="<?php echo e(route('user')); ?>">
+								<i data-feather="user"></i><span class="lan-3">Utlisateurs</span>
+								<div class="according-menu"><i class="fa fa-angle-<?php echo e(request()->route()->getPrefix() == '/user' ? 'down' : 'right'); ?>"></i></div>
+							</a>
+						</li>
+						<?php endif; ?>
 				</ul>
 			</div>
 		</nav>
