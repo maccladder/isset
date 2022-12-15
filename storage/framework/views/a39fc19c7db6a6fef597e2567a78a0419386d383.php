@@ -30,7 +30,7 @@
 						</a>
 					</li>
 
-					<?php endif; ?>
+					<?php endif; ?> 
 
 					<?php if(Auth::user()->role == "Chef de service"): ?>
 
