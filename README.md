@@ -1,3 +1,14 @@
+Can you signup on the Slack?
+I sent you invitaion on the Slack (from fullstack.work25@gmail.com)
+
+I think, if we use this communication tools, its better you and me.
+Please check your email and accept my invitation.
+
+Thanks
+
+
+
+
 Laravel 8 version - Cuba Theme Support 
 
 1) Laravel Jetstream.  ( https://jetstream.laravel.com/1.x/introduction.html#laravel-jetstream )
