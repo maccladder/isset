@@ -20,7 +20,7 @@
 
 					<li class="sidebar-list">
 						<a class="sidebar-link sidebar-title {{request()->is('rapports/*') ? 'active' : '' }} {{ request()->is('rapports') ? ' active' : '' }}" href="{{route('rapport')}}">
-							<i data-feather="home"></i><span class="lan-3">Rapport</span>
+							<i data-feather="home"></i><span class="lan-3">Journal d'agent</span>
 						</a>
 					</li>
                 	<li class="sidebar-list">
