@@ -11,11 +11,11 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('breadcrumb-title'); ?>
-    <h3>Rapports</h3>
+    <h3>Journal d'agent</h3>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('breadcrumb-items'); ?>
-    <li class="breadcrumb-item active">rapports</li>
+    <li class="breadcrumb-item active">Journal d'agent</li>
 <?php $__env->stopSection(); ?>
 
 

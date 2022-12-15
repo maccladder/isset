@@ -11,11 +11,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Dashboard</h3>
+    <h3>Tableau de bord</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item active">Dashboard</li>
+    <li class="breadcrumb-item active">Tableau de bord</li>
 @endsection
 
 @section('content')
@@ -29,10 +29,10 @@
                         @csrf
                         <div class="form-group">
                             <label class="radio-inline">
-                                <input type="radio" name="optradio" value="day" checked> Day
+                                <input type="radio" name="optradio" value="day" checked> Jour
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="optradio" value="range" > A - B
+                                <input type="radio" name="optradio" value="range" > Intervalle de temps
                             </label>
                         </div>
                         <div class="dispform">
@@ -41,7 +41,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label pt-0">Date</label>
                                     <input class="datepicker-here form-control digits height-range range_picker d-none" autocomplete="off" name="search_id_date" type="text" data-range="true" placeholder="Veuillez sélectionner un interval de temps" data-multiple-dates-separator=" - " data-language="en">
-                                    <input class="datepicker-here form-control digits height-range day_picker" autocomplete="off" name="search_id_date" type="text" data-range="false"  placeholder="Veuillez sélectionner un interval de temps" data-language="en">
+                                    <input class="datepicker-here form-control digits height-range day_picker" autocomplete="off" name="search_id_date" type="text" data-range="false"  placeholder="Choisir un jour" data-language="en">
                                 </div>
                             </div>
                             <div class="col-md-4 mr-4 margin-div-dir">
@@ -288,6 +288,7 @@
 
             $('input[type=radio]').change(function() {                
                 if ( this.value == "day") {
+
                     $('.day_picker').removeClass('d-none');
                     $('.range_picker').addClass('d-none');                    
                 }else {

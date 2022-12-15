@@ -56,7 +56,7 @@
 						</li>
 						<li class="sidebar-list">
 							<a class="sidebar-link sidebar-title <?php echo e(request()->is('rapports/*') ? 'active' : ''); ?> <?php echo e(request()->is('rapports') ? ' active' : ''); ?>" href="<?php echo e(route('rapport')); ?>">
-								<i data-feather="grid"></i><span class="lan-3">Rapport</span>
+								<i data-feather="grid"></i><span class="lan-3">Journal d'agent</span>
 							</a>
 						</li>
 						<li class="sidebar-list">
